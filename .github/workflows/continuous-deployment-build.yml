@@ -1,0 +1,23 @@
+on:
+  push:
+    branches:
+      - "master"
+
+name: "Continuous Deployment - Build"
+
+jobs:
+  build:
+    name: "Build Docker Image"
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v2
+
+      - name: "Build Docker Image"
+        run: .build/test.sh
+
+      - name: "Docker Logs"
+        if: always()
+        run: sudo journalctl -xe -u docker

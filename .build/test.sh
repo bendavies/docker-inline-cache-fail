@@ -5,6 +5,8 @@ set -eux
 function build {
   local -r tag="docker.pkg.github.com/bendavies/docker-inline-cache-fail/php:latest"
 
+  export DOCKER_BUILDKIT=1
+
   docker build \
     --build-arg BUILDKIT_INLINE_CACHE=1 \
     --target php \

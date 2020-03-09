@@ -4,6 +4,7 @@ set -eux
 
 function build {
   local -r tag="bendavies/docker-inline-cache-fail:latest"
+  local -r cache_tag="bendavies/docker-inline-cache-fail:cache"
 
 #  export DOCKER_BUILDKIT=1
 #
@@ -20,8 +21,8 @@ function build {
 
   docker buildx build \
     --progress plain \
-    --cache-to type=inline,mode=max \
-    --cache-from type=registry,ref="$tag" \
+    --cache-from "type=registry,ref=$cache_tag" \
+    --cache-to "type=registry,ref=$cache_tag,mode=max" \
     --target php \
     --tag "$tag" \
     --push \

@@ -2,7 +2,7 @@
 
 ARG NGINX_VERSION=1.15
 
-FROM usabillabv/php:7.4-cli-alpine3.11 AS composer
+FROM usabillabv/php:7.4-cli-alpine3.11 AS deps
 
 WORKDIR /srv/app
 
@@ -39,8 +39,8 @@ COPY public public/
 COPY src src/
 COPY templates templates/
 COPY translations translations/
-COPY --from=composer /srv/app/vendor vendor/
-COPY --from=composer /usr/bin/composer /usr/bin/composer
+COPY --from=deps /srv/app/vendor vendor/
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN set -eux; \
 	mkdir -p var/cache var/log; \

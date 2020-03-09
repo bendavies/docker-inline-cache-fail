@@ -20,8 +20,6 @@ function build {
 
   docker buildx build \
     --progress plain \
-    --cache-to=type=inline \
-    --cache-from=type=registry,ref="$tag" \
     --target php \
     --tag "$tag" \
     --push \

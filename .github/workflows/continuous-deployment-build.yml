@@ -21,10 +21,12 @@ jobs:
       - name: "Docker Login"
         run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u ${{ github.event.repository.owner.login }} --password-stdin
 
-      - name: Set up Docker Buildx
-        uses: crazy-max/ghaction-docker-buildx@v1
-        with:
-          version: latest
+      - name: "Install Docker Buildx"
+        run: |
+          mkdir -p ~/.docker/cli-plugins
+          curl -fsSL -o ~/.docker/cli-plugins/docker-buildx "https://github.com/docker/buildx/releases/download/v${DOCKER_BUILDX_VERSION}/buildx-v${DOCKER_BUILDX_VERSION}.linux-amd64"
+          chmod +x ~/.docker/cli-plugins/docker-buildx
+          docker buildx create --name builder --use
 
       - name: "Build Docker Image"
         run: .build/test.sh

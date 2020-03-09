@@ -7,8 +7,11 @@ function build {
 
   export DOCKER_BUILDKIT=1
 
+  docker pull "$tag" || true
+
   docker build \
     --build-arg BUILDKIT_INLINE_CACHE=1 \
+    --cache-from "$tag" \
     --target php \
     --tag "$tag" \
     -f Dockerfile .

@@ -3,14 +3,15 @@
 set -eux
 
 function build {
-  local -r image="bendavies/docker-inline-cache-fail"
+  local -r tag="docker.pkg.github.com/bendavies/docker-inline-cache-fail/php:latest"
 
-  export DOCKER_BUILDKIT=1
-
-  docker build \
-    --build-arg BUILDKIT_INLINE_CACHE=1 \
+  ~/.docker/cli-plugins/docker-buildx build \
+    --progress plain \
+    --cache-to=type=inline \
+    --cache-from=type=registry,ref="$tag" \
     --target php \
-    --tag "$image:latest" \
+    --tag "$tag" \
+    --push \
     -f Dockerfile .
 }
 

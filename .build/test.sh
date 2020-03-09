@@ -3,7 +3,7 @@
 set -eux
 
 function build {
-  local -r tag="docker.pkg.github.com/bendavies/docker-inline-cache-fail/php:latest"
+  local -r tag="bendavies/docker-inline-cache-fail:latest"
 
 #  export DOCKER_BUILDKIT=1
 #

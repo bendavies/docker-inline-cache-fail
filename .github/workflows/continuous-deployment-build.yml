@@ -13,12 +13,17 @@ jobs:
 
     env:
       DOCKER_BUILDX_VERSION: '0.3.1'
+      DOCKERHUB_USER: bendavies
+      DOCKERHUB_PASS: ${{ secrets.DOCKERHUB_PASS }}
 
     steps:
       - name: "Checkout"
         uses: actions/checkout@v2
 
-      - name: "Docker Login"
+      - name: "Login to Dockerhub"
+        run: echo '${{ secrets.DOCKERHUB_PASS }}' | docker login --username $DOCKERHUB_USER --password-stdin
+
+      - name: "Login to GitHub Packages"
         run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u ${{ github.event.repository.owner.login }} --password-stdin
 
       - name: "Install Docker Buildx"
